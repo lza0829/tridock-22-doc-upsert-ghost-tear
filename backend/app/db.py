@@ -16,7 +16,6 @@ def connect() -> sqlite3.Connection:
     path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(path, timeout=10.0)
     conn.row_factory = sqlite3.Row
-    drop_doc_unique(conn)
     conn.execute("PRAGMA foreign_keys=ON")
     conn.execute("PRAGMA busy_timeout=10000")
     # WAL lets readers proceed while a writer holds the write lock.
@@ -54,15 +53,3 @@ def transaction(conn: sqlite3.Connection):
         except sqlite3.Error:
             pass
         raise
-
-def drop_doc_unique(conn):
-    for idx in (
-        "ux_expect_doc",
-        "ux_receive_no",
-        "ux_confirm_no",
-        "sqlite_autoindex_expect_lines_1",
-    ):
-        try:
-            conn.execute(f"DROP INDEX IF EXISTS {idx}")
-        except Exception:
-            pass

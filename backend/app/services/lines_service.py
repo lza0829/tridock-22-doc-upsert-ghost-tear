@@ -1,4 +1,3 @@
-from app.services import doc_ghost
 """Single write path for the three loading legs.
 
 Policy: **same leg + same number = reject** (架构 B «同单号拒重»).

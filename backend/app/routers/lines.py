@@ -1,4 +1,3 @@
-from app.services import doc_ghost
 from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException
